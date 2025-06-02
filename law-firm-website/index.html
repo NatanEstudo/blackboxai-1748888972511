@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tradutor de PDF só para Milena</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Raleway:wght@300;400;600&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Raleway', sans-serif;
+        }
+        .heading-font {
+            font-family: 'Playfair Display', serif;
+        }
+    </style>
+</head>
+<body class="bg-gray-50">
+    <nav class="bg-blue-900 text-white shadow-lg">
+        <div class="container mx-auto px-6 py-3 flex justify-between items-center">
+            <a href="#" class="text-2xl font-bold heading-font">Tradutor de PDF</a>
+        </div>
+    </nav>
+
+    <section class="py-16">
+        <div class="container mx-auto px-6">
+            <h2 class="text-3xl font-bold mb-12 text-center heading-font">Carregue seu PDF para tradução</h2>
+<form id="pdfUploadForm" action="http://localhost:5000/translate" method="POST" enctype="multipart/form-data" class="bg-white p-8 rounded-lg shadow-lg">
+                <div class="mb-4">
+                    <label for="pdfFile" class="block text-gray-700 mb-2">Selecione o arquivo PDF</label>
+                    <input type="file" id="pdfFile" name="pdfFile" accept="application/pdf" class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500" required>
+                </div>
+                <button type="submit" class="w-full bg-blue-800 hover:bg-blue-900 text-white font-bold py-3 px-4 rounded-lg transition duration-300">
+                    Traduzir PDF
+                </button>
+            </form>
+        </div>
+    </section>
+
+    <footer class="bg-blue-900 text-white py-8">
+        <div class="container mx-auto px-6 text-center">
+            <p>&copy; 2023 Tradutor de PDF. Todos os direitos reservados.</p>
+        </div>
+    </footer>
+</body>
+</html>
