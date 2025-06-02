@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Embedder.net Movies Clone</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" />
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  <style>
+    body {
+      font-family: 'Montserrat', sans-serif;
+      background-color: #0f172a;
+      color: #e0e7ff;
+    }
+    .movie-card {
+      cursor: pointer;
+      transition: box-shadow 0.3s ease;
+    }
+    .movie-card:hover {
+      box-shadow: 0 0 15px #4f46e5;
+    }
+    .modal-bg {
+      background-color: rgba(0, 0, 0, 0.85);
+    }
+  </style>
+</head>
+<body>
+  <header class="bg-dark p-3 d-flex justify-content-between align-items-center">
+    <h1 class="text-indigo-400">Embedder.net Movies Clone</h1>
+    <input
+      type="text"
+      id="searchInput"
+      placeholder="Search movies and series..."
+      class="form-control w-25"
+    />
+  </header>
+
+  <main class="container my-4">
+    <div id="moviesGrid" class="row g-3">
+      <!-- Movie and series cards will be injected here -->
+    </div>
+  </main>
+
+  <!-- Modal -->
+  <div
+    id="movieModal"
+    class="modal fade"
+    tabindex="-1"
+    aria-labelledby="modalTitle"
+    aria-hidden="true"
+  >
+    <div class="modal-dialog modal-xl modal-dialog-centered">
+      <div class="modal-content bg-dark text-light">
+        <div class="modal-header border-0">
+          <h5 class="modal-title" id="modalTitle"></h5>
+          <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body p-0">
+          <video
+            id="modalVideo"
+            controls
+            class="w-100"
+            src=""
+            type="video/mp4"
+          ></video>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+  <script>
+    const movies = [
+      {
+        id: 1,
+        title: "The Shawshank Redemption",
+        category: "Drama",
+        thumbnail: "https://image.tmdb.org/t/p/w500/q6y0Go1tsGEsmtFryDOJo3dEmqu.jpg",
+        videoUrl: "https://www.w3schools.com/html/mov_bbb.mp4"
+      },
+      {
+        id: 2,
+        title: "The Godfather",
+        category: "Crime",
+        thumbnail: "https://image.tmdb.org/t/p/w500/eEslKSwcqmiNS6va24Pbxf2UKmJ.jpg",
+        videoUrl: "https://www.w3schools.com/html/movie.mp4"
+      },
+      {
+        id: 3,
+        title: "The Dark Knight",
+        category: "Action",
+        thumbnail: "https://image.tmdb.org/t/p/w500/qJ2tW6WMUDux911r6m7haRef0WH.jpg",
+        videoUrl: "https://www.w3schools.com/html/mov_bbb.mp4"
+      },
+      {
+        id: 4,
+        title: "Inception",
+        category: "Sci-Fi",
+        thumbnail: "https://image.tmdb.org/t/p/w500/edv5CZvWj09upOsy2Y6IwDhK8bt.jpg",
+        videoUrl: "https://www.w3schools.com/html/movie.mp4"
+      },
+      {
+        id: 5,
+        title: "Pulp Fiction",
+        category: "Crime",
+        thumbnail: "https://image.tmdb.org/t/p/w500/dM2w364MScsjFf8pfMbaWUcWrR.jpg",
+        videoUrl: "https://www.w3schools.com/html/mov_bbb.mp4"
+      }
+      // Add more movies and series as needed
+    ];
+
+    const moviesGrid = $('#moviesGrid');
+    const searchInput = $('#searchInput');
+    const movieModal = new bootstrap.Modal(document.getElementById('movieModal'));
+    const modalTitle = $('#modalTitle');
+    const modalVideo = $('#modalVideo');
+
+    function displayMovies(moviesToDisplay) {
+      moviesGrid.empty();
+      if (moviesToDisplay.length === 0) {
+        moviesGrid.append('<p class="text-center text-muted">No movies or series found.</p>');
+        return;
+      }
+      moviesToDisplay.forEach(movie => {
+        const card = $(`
+          <div class="col-6 col-sm-4 col-md-3 col-lg-2">
+            <div class="movie-card bg-secondary rounded shadow-sm overflow-hidden">
+              <img src="${movie.thumbnail}" alt="${movie.title}" class="img-fluid" />
+              <div class="p-2">
+                <h6 class="text-truncate text-indigo-300">${movie.title}</h6>
+                <p class="text-muted small text-truncate">${movie.category}</p>
+              </div>
+            </div>
+          </div>
+        `);
+        card.click(() => openModal(movie));
+        moviesGrid.append(card);
+      });
+    }
+
+    function openModal(movie) {
+      modalTitle.text(movie.title);
+      modalVideo.attr('src', movie.videoUrl);
+      movieModal.show();
+      modalVideo[0].play();
+    }
+
+    $('#movieModal').on('hidden.bs.modal', () => {
+      modalVideo[0].pause();
+      modalVideo.attr('src', '');
+    });
+
+    searchInput.on('input', () => {
+      const query = searchInput.val().toLowerCase();
+      const filtered = movies.filter(m => m.title.toLowerCase().includes(query) || m.category.toLowerCase().includes(query));
+      displayMovies(filtered);
+    });
+
+    $(document).ready(() => {
+      displayMovies(movies);
+    });
+  </script>
+</body>
+</html>
